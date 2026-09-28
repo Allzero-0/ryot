@@ -1,3 +1,9 @@
+/**
+ * 本文件修改自 ryot（https://github.com/IgnisDa/ryot）。
+ * 修改：侧边栏加入「学习中心」入口
+ * 修改日期：2026-09-27 ~ 2026-09-28
+ * 授权：GNU General Public License v3.0（见仓库根目录 LICENSE），与上游 ryot 保持一致。
+ */
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import {
 	ActionIcon,
@@ -30,6 +36,7 @@ import {
 	IconGraph,
 	IconHome2,
 	IconLogout,
+	IconSchool,
 	IconSettings,
 	IconStretching,
 } from "@tabler/icons-react";
@@ -55,9 +62,11 @@ import {
 	getFitnessLinks,
 	getMediaLinks,
 	getSettingsLinks,
+	getStudyLinks,
 	getThemeIcon,
 } from "~/components/routes/dashboard/navigation/navigation-config";
 import { desktopSidebarCollapsedCookie } from "~/components/routes/dashboard/utils";
+import { useTranslation } from "~/lib/i18n";
 import { LOGO_IMAGE_URL } from "~/lib/shared/constants";
 import {
 	useConfirmSubmit,
@@ -131,6 +140,9 @@ export default function Layout() {
 	const mediaLinks = getMediaLinks(userPreferences);
 	const settingsLinks = getSettingsLinks(userDetails);
 	const fitnessLinks = getFitnessLinks(userPreferences);
+	const studyLinks = getStudyLinks();
+	// 侧边栏文案走 i18n；其余硬编码英文由 DOM 兜底翻译处理
+	const { t } = useTranslation();
 	const Icon = getThemeIcon(loaderData.currentColorScheme);
 	const isFitnessActionActive = useIsFitnessActionActive();
 	const { openedSidebarLinks, setOpenedSidebarLinks } = useOpenedSidebarLinks();
@@ -245,14 +257,14 @@ export default function Layout() {
 						<LinksGroup
 							opened={false}
 							icon={IconHome2}
-							label="Dashboard"
+							label={t("Dashboard")}
 							setOpened={() => {}}
 							href={forcedDashboardPath}
 							toggle={toggleMobileNavbar}
 						/>
 						{userPreferences.featuresEnabled.media.enabled ? (
 							<LinksGroup
-								label="Media"
+								label={t("Media")}
 								links={mediaLinks}
 								icon={IconDeviceSpeaker}
 								toggle={toggleMobileNavbar}
@@ -269,7 +281,7 @@ export default function Layout() {
 						) : null}
 						{userPreferences.featuresEnabled.fitness.enabled ? (
 							<LinksGroup
-								label="Fitness"
+								label={t("Fitness")}
 								links={fitnessLinks}
 								icon={IconStretching}
 								toggle={toggleMobileNavbar}
@@ -288,7 +300,7 @@ export default function Layout() {
 							<LinksGroup
 								opened={false}
 								icon={IconGraph}
-								label="Analytics"
+								label={t("Analytics")}
 								setOpened={() => {}}
 								toggle={toggleMobileNavbar}
 								href={$path("/analytics")}
@@ -300,7 +312,7 @@ export default function Layout() {
 						{userPreferences.featuresEnabled.others.calendar ? (
 							<LinksGroup
 								opened={false}
-								label="Calendar"
+								label={t("Calendar")}
 								icon={IconCalendar}
 								setOpened={() => {}}
 								toggle={toggleMobileNavbar}
@@ -311,7 +323,7 @@ export default function Layout() {
 							<LinksGroup
 								opened={false}
 								icon={IconArchive}
-								label="Collections"
+								label={t("Collections")}
 								setOpened={() => {}}
 								toggle={toggleMobileNavbar}
 								href={$path("/collections/list")}
@@ -320,10 +332,24 @@ export default function Layout() {
 								}
 							/>
 						) : null}
+						<LinksGroup
+							label="学习中心"
+							links={studyLinks}
+							icon={IconSchool}
+							toggle={toggleMobileNavbar}
+							opened={openedSidebarLinks.study || false}
+							setOpened={(k) =>
+								setOpenedSidebarLinks(
+									produce(openedSidebarLinks, (draft) => {
+										if (draft) draft.study = k;
+									}),
+								)
+							}
+						/>
 						{loaderData.isAccessLinkSession &&
 						!loaderData.isDemoInstance ? null : (
 							<LinksGroup
-								label="Settings"
+								label={t("Settings")}
 								icon={IconSettings}
 								links={settingsLinks}
 								toggle={toggleMobileNavbar}

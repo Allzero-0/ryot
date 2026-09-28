@@ -1,3 +1,9 @@
+/**
+ * 本文件修改自 ryot（https://github.com/IgnisDa/ryot）。
+ * 修改：挂载 I18nProvider、lang="zh-CN"、中文字体回退
+ * 修改日期：2026-09-27 ~ 2026-09-28
+ * 授权：GNU General Public License v3.0（见仓库根目录 LICENSE），与上游 ryot 保持一致。
+ */
 import "@mantine/core/styles.css";
 import "@mantine/code-highlight/styles.css";
 import "@mantine/charts/styles.css";
@@ -34,6 +40,7 @@ import {
 	useNavigation,
 } from "react-router";
 import { Toaster } from "~/components/toaster";
+import { I18nProvider, useRuntimeTranslation } from "~/lib/i18n";
 import { LOGO_IMAGE_URL } from "~/lib/shared/constants";
 import { queryClient } from "~/lib/shared/react-query";
 import {
@@ -44,7 +51,9 @@ import {
 import classes from "~/styles/common.module.css";
 
 const theme = createTheme({
-	fontFamily: "Poppins",
+	// 中文字体放在 Poppins 之后：英文/数字仍用 Poppins，中文回退到 Noto Sans SC
+	fontFamily:
+		"Poppins, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif",
 	components: {
 		Alert: Alert.extend({ defaultProps: { p: "xs" } }),
 		ActionIcon: ActionIcon.extend({
@@ -69,12 +78,21 @@ const theme = createTheme({
 	},
 });
 
+/**
+ * DOM 兜底翻译的挂载点。ryot 上游把英文硬编码在各组件里，
+ * 这里在不改动原有组件的前提下把已收录的文案替换成中文。
+ */
+function TranslationRuntime() {
+	useRuntimeTranslation();
+	return null;
+}
+
 export const meta: MetaFunction = () => {
 	return [
-		{ title: "Ryot" },
+		{ title: "Ryot · 学习追踪" },
 		{
 			name: "description",
-			content: "The only self hosted tracker you will ever need.",
+			content: "自我托管的生活追踪平台：媒体、健身、考研与四六级学习。",
 		},
 		{
 			property: "og:image",
@@ -100,6 +118,10 @@ export const links: LinksFunction = () => {
 		{
 			rel: "stylesheet",
 			href: "https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap",
+		},
+		{
+			rel: "stylesheet",
+			href: "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap",
 		},
 	];
 };
@@ -130,7 +152,7 @@ export default function App() {
 	});
 
 	return (
-		<html lang="en">
+		<html lang="zh-CN">
 			<head>
 				{loaderData.isDevelopmentMode ? (
 					<script src="https://unpkg.com/react-scan/dist/auto.global.js" />
@@ -148,11 +170,13 @@ export default function App() {
 			</head>
 			<body>
 				<NuqsAdapter>
-					<MantineProvider
-						theme={theme}
-						classNamesPrefix="mnt"
-						forceColorScheme={loaderData.defaultColorScheme}
-					>
+					<I18nProvider>
+						<TranslationRuntime />
+						<MantineProvider
+							theme={theme}
+							classNamesPrefix="mnt"
+							forceColorScheme={loaderData.defaultColorScheme}
+						>
 						<QueryClientProvider client={queryClient}>
 							<ModalsProvider>
 								{["loading", "submitting"].includes(navigation.state) ? (
@@ -174,7 +198,8 @@ export default function App() {
 							</ModalsProvider>
 							<ReactQueryDevtools buttonPosition="top-right" />
 						</QueryClientProvider>
-					</MantineProvider>
+						</MantineProvider>
+					</I18nProvider>
 				</NuqsAdapter>
 			</body>
 		</html>

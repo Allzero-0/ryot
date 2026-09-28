@@ -1,3 +1,9 @@
+/**
+ * 本文件修改自 ryot（https://github.com/IgnisDa/ryot）。
+ * 修改：侧边栏「学习中心」子菜单配置
+ * 修改日期：2026-09-27 ~ 2026-09-28
+ * 授权：GNU General Public License v3.0（见仓库根目录 LICENSE），与上游 ryot 保持一致。
+ */
 import type { UserPreferences } from "@ryot/generated/graphql/backend/graphql";
 import { MediaLot, UserLot } from "@ryot/generated/graphql/backend/graphql";
 import { changeCase } from "@ryot/ts-utils";
@@ -91,6 +97,18 @@ export const getSettingsLinks = (
 			? { label: "Users", link: $path("/settings/users") }
 			: undefined,
 	].filter((link) => link !== undefined);
+
+/**
+ * 学习中心（本项目新增模块）。
+ * 这四个页面不依赖后端 GraphQL，数据存在浏览器本地，因此即使后端没起来也能用。
+ */
+export const getStudyLinks = () => [
+	{ label: "总览", link: "/study" },
+	{ label: "考研计划表", link: "/study/plan" },
+	{ label: "四六级打卡", link: "/study/cet" },
+	{ label: "定期复习提醒", link: "/study/review" },
+	{ label: "AI 数据分析", link: "/study/analytics" },
+];
 
 export const getThemeIcon = (currentColorScheme: string) =>
 	currentColorScheme === "dark" ? IconSun : IconMoon;

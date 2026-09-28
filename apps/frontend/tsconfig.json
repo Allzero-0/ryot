@@ -1,4 +1,7 @@
 {
+	// study-pwa 是独立构建：它引用的 vite 来自仓库根目录，与本工作区的 vite 不是同一份，
+	// 混在一起类型检查会因为两份 Plugin 类型不兼容而报错。它由 vite 自己转译，无需 tsc。
+	"exclude": ["study-pwa"],
 	"include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
 	"compilerOptions": {
 		"baseUrl": ".",

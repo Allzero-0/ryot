@@ -7,6 +7,9 @@
 		"typecheck": "tsc",
 		"lint": "biome check .",
 		"build": "react-router build",
+		"build:pwa": "vite build --config study-pwa/vite.config.ts",
+		"build:desktop": "node study-pwa/build-desktop.mjs",
+		"preview:pwa": "vite preview --config study-pwa/vite.config.ts --port 4173",
 		"dev": "react-router dev --port 3000 --host"
 	},
 	"installConfig": {

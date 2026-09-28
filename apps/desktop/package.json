@@ -1,0 +1,59 @@
+{
+	"name": "@ryot/desktop",
+	"version": "1.0.0",
+	"private": true,
+	"description": "学习中心桌面版（Electron 壳，渲染层复用 PWA 构建产物）",
+	"main": "electron/main.js",
+	"scripts": {
+		"dev": "electron .",
+		"icon": "node scripts/make-icon.mjs",
+		"dist": "electron-builder --win --x64",
+		"dist:dir": "electron-builder --win --dir"
+	},
+	"devDependencies": {
+		"electron": "33.3.1",
+		"electron-builder": "25.1.8"
+	},
+	"build": {
+		"appId": "cn.ryot.studyhub",
+		"productName": "学习中心",
+		"copyright": "Copyright © 2026",
+		"directories": {
+			"output": "dist"
+		},
+		"files": [
+			"electron/**/*",
+			"renderer/**/*",
+			"package.json"
+		],
+		"win": {
+			"signAndEditExecutable": false,
+			"target": [
+				{
+					"target": "nsis",
+					"arch": ["x64"]
+				}
+			],
+			"icon": "build/icon.ico"
+		},
+		"nsis": {
+			"oneClick": false,
+			"perMachine": false,
+			"allowToChangeInstallationDirectory": true,
+			"createDesktopShortcut": true,
+			"createStartMenuShortcut": true,
+			"shortcutName": "学习中心",
+			"language": "2052",
+			"installerIcon": "build/icon.ico",
+			"uninstallerIcon": "build/icon.ico"
+		},
+		"mac": {
+			"target": "dmg",
+			"icon": "build/icon.icns"
+		},
+		"linux": {
+			"target": "AppImage",
+			"icon": "build/icon.png"
+		}
+	}
+}
