@@ -63,6 +63,32 @@
 > 界面已汉化：i18n 词条层 + DOM 全词精确匹配兜底翻译，固定简体中文。
 > **所有数据只存在你自己的浏览器（IndexedDB）里，不上传任何服务器。**
 >
+> #### 截图
+>
+> **学习总览** — 考研 / 四六级倒计时、目标设置、数据备份
+>
+> ![学习总览](screenshots/study-overview.png)
+>
+> **考研计划表** — 数据卡片、各科进度、任务清单
+>
+> ![考研计划表](screenshots/study-plan-kaoyan.png)
+>
+> **公考事业编计划表** — 国考 / 各省省考 / 事业单位多套计划独立管理
+>
+> ![公考事业编计划表](screenshots/study-plan-gongkao.png)
+>
+> **四六级打卡** — 每日五项打卡、热力图、学习时长曲线
+>
+> ![四六级打卡](screenshots/study-cet.png)
+>
+> **定期复习提醒** — SM-2 间隔重复调度
+>
+> ![定期复习提醒](screenshots/study-review.png)
+>
+> **AI 数据分析** — 本地规则引擎
+>
+> ![AI 数据分析](screenshots/study-analytics.png)
+>
 > #### 安装（Windows）
 >
 > 1. 到 [Releases](https://github.com/Allzero-0/ryot/releases) 下载 `学习中心 Setup 1.0.0.exe`
