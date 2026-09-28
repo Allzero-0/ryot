@@ -39,6 +39,65 @@
 
 ## Quick Start
 
+> ### 本 Fork：学习中心
+>
+> 这是 [Ryot](https://github.com/IgnisDa/ryot) 的修改版。上游全部功能**完整保留**，
+> 在此基础上新增了一个**中文的「学习中心」模块**，并做了界面汉化。
+> 改动清单与逐文件的 GPL 修改声明见 [`MODIFICATIONS.md`](MODIFICATIONS.md)；
+> 模块设计说明见 [`STUDY-MODULE.zh-CN.md`](STUDY-MODULE.zh-CN.md)。
+>
+> **如果你只想用 Ryot 本体，请回到上游仓库** —— 本 Fork 的内容是针对考研 / 公考
+> / 四六级场景做的扩展。
+>
+> #### 新增模块
+>
+> | 模块 | 说明 |
+> |---|---|
+> | 学习总览 | 考研 / 四六级倒计时、连续打卡、预测分、目标设置、数据备份（导出 / 导入 JSON） |
+> | 考研计划表 | 任务增删改、各科进度条、甘特图、风险测算（每日所需时长 vs 你设定的上限） |
+> | 公考事业编计划表 | 国考 / 各省省考 / 事业单位**多套计划数据隔离**；试卷类型细分（副省级、江苏 A/B/C、联考 A~E 类等）；与考研共用同一套算法与 UI 组件 |
+> | 四六级打卡 | 每日五项打卡、91 天热力图、能力雷达图 |
+> | 定期复习提醒 | SM-2 间隔重复调度 + 浏览器通知 |
+> | AI 数据分析 | 纯本地规则引擎，**不联网、不需要 API Key** |
+>
+> 界面已汉化：i18n 词条层 + DOM 全词精确匹配兜底翻译，固定简体中文。
+> **所有数据只存在你自己的浏览器（IndexedDB）里，不上传任何服务器。**
+>
+> #### 安装（Windows）
+>
+> 1. 到 [Releases](https://github.com/Allzero-0/ryot/releases) 下载 `学习中心 Setup 1.0.0.exe`
+> 2. 双击安装。未签名，Windows 会提示「已保护你的电脑」→ 点 **更多信息 → 仍要运行**
+> 3. 装完有桌面图标，打开即用
+>
+> > 安装包 82 MB，已在 `.gitignore` 中排除，**clone 仓库拿不到**，请从 Releases 下载。
+>
+> #### 从源码构建
+>
+> ```bash
+> node .yarn/releases/yarn-4.1.1.cjs install
+> node .yarn/releases/yarn-4.1.1.cjs workspace @ryot/frontend build:desktop
+> cd apps/desktop && npm install && node scripts/make-icon.mjs && npx electron-builder --win --x64
+> ```
+>
+> 国内网络请先配置镜像：
+>
+> ```bash
+> export ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
+> export ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/
+> ```
+>
+> 网页版（PWA，可装到手机主屏，需 HTTPS 托管）：
+>
+> ```bash
+> node .yarn/releases/yarn-4.1.1.cjs workspace @ryot/frontend build:pwa   # 产物在 apps/build/study-pwa
+> ```
+>
+> #### 许可与归属
+>
+> - 上游 Ryot 版权归 [IgnisDa](https://github.com/IgnisDa/ryot) 所有，[GPL-3.0](LICENSE)
+> - 本 Fork 同样以 **GPL-3.0** 授权（GNU GPL 要求衍生作品沿用同一许可证）
+> - 分发二进制时，其对应源码即本仓库
+
 Create a `docker-compose.yml` file:
 
 ```yaml
